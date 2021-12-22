@@ -1,0 +1,29 @@
+#!/bin/sh
+
+init() {
+    # Download folder
+    path="/path/to/download/folder"
+    
+    # Channel URLs
+    channels[name-1]="link-1"
+    channels[name-2]="link-2"
+    # ...
+}
+
+channels() {
+    for name in "${!channels[@]}"; do
+        channel "$name"
+    done
+}
+
+channel() {
+    name="$1"
+    cd "$path"; mkdir -p "$name"; cd "$name"
+    yt-dlp --download-archive archive.txt --write-info-json --force-ipv4 -o "%(title)s-%(id)s.%(ext)s" ${channels["$name"]}
+    mkdir -p info; mv *.json info
+}
+
+declare -A channels
+init
+arguments=("channels" "channel")
+[[ "${arguments[@]}" =~ "${1}" ]] && "$1" "$2"
