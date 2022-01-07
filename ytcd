@@ -19,7 +19,7 @@ channels() {
 channel() {
     name="$1"
     cd "$path"; mkdir -p "$name"; cd "$name"
-    yt-dlp --download-archive archive.txt --write-info-json --force-ipv4 -o "%(title)s-%(id)s.%(ext)s" ${channels["$name"]}
+    yt-dlp --download-archive archive.txt --write-info-json --force-ipv4 ${channels["$name"]}
     mkdir -p info; mv *.json info
 }
 
